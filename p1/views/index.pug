@@ -1,0 +1,20 @@
+doctype html
+html
+  head
+    title My App
+  body
+    block content
+
+    h1 Configuracion de usuario
+
+    // Formulario para seleccionar un usuario
+    form(action="/consultarHistorial" method="post")
+      label(for="usuario") Selecciona un usuario:
+      select(name="usuario" id="usuario" required='')
+        option(value='') (select one)
+        option(value='Vicente') Vicente
+        option(value='Oscar') Oscar
+        option(value='Christopher') Christopher
+        option(value='Axel') Axel
+      button(type="submit") Mostrar Historial
+

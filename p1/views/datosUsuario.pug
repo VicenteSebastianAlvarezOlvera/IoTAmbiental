@@ -1,0 +1,246 @@
+doctype html
+head
+  title Formulario de Preguntas
+  style.
+    .grid-container{
+      display: grid;
+      grid-template-columns: repeat(4, 3fr); 
+      grid-gap: 10px;
+      text-align: center;
+      margin: 0 auto;
+    }
+    .single-column {
+      grid-column: span 4; 
+      text-align: center;
+      margin: 0 auto;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+      border: -20xp;
+    }
+    /* Hide default HTML checkbox */
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    /* The slider */
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+    input:focus + .slider {
+      box-shadow: 0 0 1px #2196F3;
+    }
+    input:checked + .slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px);
+    }
+    /* Rounded sliders */
+    .slider.round {
+      border-radius: 34px;
+    }
+    .slider.round:before {
+      border-radius: 50%;
+    }
+    .my-button {
+      padding: 10px 20px;
+      background-color: #2196f3;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .my-button:hover {
+      background-color: #45a049;
+    }
+
+    .my-button:active {
+      background-color: #3e8e41;
+    }
+
+
+form#questionForm(action='/processForm' method='POST')
+  label(for='usuario') Usuario: #{usuario}
+  input(type='hidden', id='usuario', name='usuario', value=usuario)
+
+  label(for='umbral') Ingrese su lumbral de alerta en Watts:
+  input(id='umbral', name='umbral' required='')
+  .grid-container
+    .habitacion.comedor.nintendoswitch
+      h2 Comedor
+      p Refrigerador:
+      label.switch
+        input(type='checkbox' value='179' name='Refrigerador', checked=historial.Refrigerador)
+        span.slider.round
+        br
+      br
+      p Cafetera:
+      label.switch
+        input(type='checkbox' value='1034' name='Cafetera', checked=historial.Cafetera)
+        span.slider.round
+        br
+      br
+      p Estufa electrica:
+      label.switch
+        input(type='checkbox' value='2654' name='Estufa', checked=historial.Estufa)
+        span.slider.round
+        br
+      br
+      p Horno de microondas:
+      label.switch
+        input(type='checkbox' value='1014' name='Microondas', checked=historial.Microondas)
+        span.slider.round
+        br
+      br
+    .habitacion.Recamara.nintendoswitch
+      h2 Recamara
+      p Cargador de celular:
+      label.switch
+        input(type='checkbox' value='10' name='Cargador', checked=historial.Cargador)
+        span.slider.round
+        br
+      br
+      p Lampara de mesa de cama:
+      label.switch
+        input(type='checkbox' value='20' name='Lampara', checked=historial.Lampara)
+        span.slider.round
+        br
+      br
+      p Ventilador de techo:
+      label.switch
+        input(type='checkbox' value='50' name='VentiladorCuarto', checked=historial.VentiladorCuarto)
+        span.slider.round
+        br
+      br
+      p Computadora:
+      label.switch
+        input(type='checkbox' value='250' name='Computadora', checked=historial.Computadora)
+        span.slider.round
+        br
+      br
+    .habitacion.salaDeEstar.nintendoswitch
+      h2 Sala de estar
+      p Television:
+      label.switch
+        input(type='checkbox' value='75' name='Television', checked=historial.Television)
+        span.slider.round
+        br
+      br
+      p Ventilador de techo:
+      label.switch
+        input(type='checkbox' value='50' name='VentiladorSala', checked=historial.VentiladorSala)
+        span.slider.round
+        br
+      br
+      p Bocina:
+      label.switch
+        input(type='checkbox' value='15' name='Bocina', checked=historial.Bocina)
+        span.slider.round
+        br
+      br
+      p Luces:
+      label.switch
+        input(type='checkbox' value='10' name='LucesSala', checked=historial.LucesSala)
+        span.slider.round
+        br
+      br
+    .habitacion.bano.nintendoswitch
+      h2 Bano
+      p Ventilacion:
+      label.switch
+        input(type='checkbox' value='30' name='Ventilacion', checked=historial.Ventilacion)
+        span.slider.round
+        br
+      br
+      p Luces:
+      label.switch
+        input(type='checkbox' value='10' name='LucesBano', checked=historial.LucesBano)
+        span.slider.round
+        br
+      br
+    //button(type='submit' id='submitButton') Enviar
+    .single-column
+        //button(type='submit') Enviar
+        button.my-button(type='submit' id='submitButton') Enviar
+
+
+script.
+  // Carga la configuración previa desde config.json
+  if (historial) { // Cambia "config" a "historial"
+    var previousConfig = historial;
+
+    // Verifica si hay configuración previa para el usuario
+    if (previousConfig) {
+      // Establece los valores seleccionados en el formulario
+      var selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+      for (var i = 0; i < selectedCheckboxes.length; i++) {
+        var checkbox = selectedCheckboxes[i];
+        var checkboxName = checkbox.getAttribute('name');
+
+        // Verifica si el nombre del checkbox coincide con un elemento en la configuración previa
+        if (previousConfig.hasOwnProperty(checkboxName) && previousConfig[checkboxName] === checkbox.value) {
+          checkbox.checked = true;
+        }
+      }
+    }
+  }
+
+  // Manejar la configuración dinámica
+  if (historial) {
+    var configKeys = Object.keys(historial); // Obtener las claves de la configuración
+    var checkboxContainer = document.getElementById('checkboxContainer');
+
+    configKeys.forEach(function (key) {
+      var checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.name = key;
+      checkbox.value = historial[key];
+      checkbox.checked = historial[key]; // Marcar o no según el valor
+
+      var label = document.createElement('label');
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode(key));
+
+      checkboxContainer.appendChild(label);
+    });
+  }
+  
+script.
+      document.addEventListener("DOMContentLoaded", function () {
+        const submitButton = document.getElementById("submitButton");
+        
+        if (submitButton) {
+          submitButton.addEventListener("click", function (event) {
+            
+            alert("Configuración guardada");
+            window.location.href = "/index";
+          });
+        }
+      })
